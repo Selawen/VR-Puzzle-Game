@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+    //ToDo: line renderer loskoppelen
+
     [SerializeField] private Transform laserTransform;
     private Ray ray;
     private RaycastHit rayHit;
+    private Vector3 hitPoint;
 
     private LineRenderer lineRenderer;
 
@@ -33,16 +36,24 @@ public class Laser : MonoBehaviour
     {
         if (Physics.Raycast(ray, out rayHit))
         {
+            if (hitPoint != rayHit.point)
+            {
+                hitPoint = rayHit.point;
+                RenderLightBeam();
+            }
             if (rayHit.collider.tag == "Mirror")
             {
                 rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(laserTransform.forward, rayHit.point);
+            } else if (rayHit.collider.tag == "Sensor")
+            {
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit();
             }
         }
     }
 
     void RenderLightBeam()
     {
-        Vector3[] positions = { laserTransform.position, laserTransform.position + laserTransform.forward * 3 };
+        Vector3[] positions = { laserTransform.position, hitPoint };
         lineRenderer.SetPositions(positions);
     }
 }
