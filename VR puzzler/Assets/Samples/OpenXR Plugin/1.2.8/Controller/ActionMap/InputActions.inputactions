@@ -444,6 +444,17 @@
                 },
                 {
                     "name": "",
+                    "id": "8ad4ddfa-aadf-4dc9-ae0a-ec99ab1bf6c8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d1bf452d-b059-4c1e-9c23-3be1c6be789e",
                     "path": "<XRController>{RightHand}/{trigger}",
                     "interactions": "",

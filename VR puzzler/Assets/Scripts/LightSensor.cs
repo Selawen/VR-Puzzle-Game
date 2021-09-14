@@ -13,7 +13,7 @@ public class LightSensor : MonoBehaviour, ISensor
 
     public void Hit()
     {
-
+        Debug.Log("I've been hit!");
     }
 
     // Start is called before the first frame update
