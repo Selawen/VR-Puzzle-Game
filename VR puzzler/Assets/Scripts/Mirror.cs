@@ -26,7 +26,7 @@ public class Mirror : MonoBehaviour, IMirror
             RenderLightBeam(mirrorTransform.position, rayHitPoint);
             if (rayHit.collider.tag == "Mirror")
             {
-                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(mirrorTransform.forward, rayHit.point);
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point);
             }
             else if (rayHit.collider.tag == "Sensor")
             {
@@ -42,7 +42,17 @@ public class Mirror : MonoBehaviour, IMirror
     public void Reflect(Vector3 source, Vector3 hitPos)
     {
         hitPoint = hitPos;
-        reflectDirection = Vector3.Reflect(source, mirrorTransform.forward);
+
+        if (Vector3.SignedAngle(source, mirrorTransform.forward, mirrorTransform.forward) < 90)
+        {
+            reflectDirection = Vector3.Reflect(source, mirrorTransform.forward);
+        } else
+        {
+            reflectDirection = Vector3.Reflect(source, mirrorTransform.forward*-1);
+        }
+
+        //Debug.Log(reflectDirection);
+
         ray = new Ray(hitPos, reflectDirection);
 
         if (Physics.Raycast(ray, out rayHit))
@@ -51,7 +61,11 @@ public class Mirror : MonoBehaviour, IMirror
             RenderLightBeam(hitPos, rayHitPoint);
             if (rayHit.collider.tag == "Mirror")
             {
-                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(mirrorTransform.forward, rayHit.point);
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point);
+            }
+            else if (rayHit.collider.tag == "Sensor")
+            {
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit();
             }
         }
         else
