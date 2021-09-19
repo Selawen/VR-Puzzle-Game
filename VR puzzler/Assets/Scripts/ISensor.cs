@@ -5,5 +5,6 @@ using UnityEngine;
 public interface ISensor
 {
     Color SensorColor();
+    bool Activated();
     void Hit();
 }

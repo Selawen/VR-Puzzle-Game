@@ -2,18 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSensor : MonoBehaviour, ISensor
+public class LightSensor : Sensor, ISensor
 {
-    [SerializeField] private Color sensorColor;
+    private bool hit = false;
 
-    public Color SensorColor()
+    public new void Hit()
     {
-        return sensorColor;
-    }
-
-    public void Hit()
-    {
-        Debug.Log("I've been hit!");
+        hit = true;
     }
 
     // Start is called before the first frame update
@@ -23,8 +18,17 @@ public class LightSensor : MonoBehaviour, ISensor
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (!activated && hit)
+        {
+            activated = true;
+            hit = false;
+        } else if (activated && !hit)
+        {
+            activated = false;
+        }
     }
+
+
 }
