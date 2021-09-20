@@ -19,7 +19,7 @@ public class Laser : MonoBehaviour
         laserTransform = gameObject.GetComponent<Transform>();
         ray = new Ray(laserTransform.position, laserTransform.forward);
         lineRenderer = gameObject.GetComponent<LineRenderer>();
-        RenderLightBeam();
+        //RenderLightBeam();
     }
 
     private void OnDrawGizmos()
@@ -41,9 +41,10 @@ public class Laser : MonoBehaviour
                 hitPoint = rayHit.point;
                 RenderLightBeam();
             }
+
             if (rayHit.collider.tag == "Mirror")
             {
-                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(laserTransform.forward, rayHit.point);
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(laserTransform.forward, rayHit.point, lineRenderer);
             } else if (rayHit.collider.tag == "Sensor")
             {
                 rayHit.collider.gameObject.GetComponent<ISensor>().Hit();
@@ -54,6 +55,7 @@ public class Laser : MonoBehaviour
     void RenderLightBeam()
     {
         Vector3[] positions = { laserTransform.position, hitPoint };
-        lineRenderer.SetPositions(positions);
+        lineRenderer.SetPosition(0, laserTransform.position);
+        lineRenderer.SetPosition(1, hitPoint);
     }
 }
