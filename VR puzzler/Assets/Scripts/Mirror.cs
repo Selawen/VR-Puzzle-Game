@@ -118,7 +118,7 @@ public class Mirror : MonoBehaviour, IMirror
             }
             else if (rayHit.collider.tag == "Sensor")
             {
-                rayHit.collider.gameObject.GetComponent<ISensor>().Hit();
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lightBeam.startColor);
             }
             
         }

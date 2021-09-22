@@ -267,12 +267,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
---- !u!4 &1811464733 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6671842289004167627, guid: ae7801818855a3d44837e5b4eb04078f,
-    type: 3}
-  m_PrefabInstance: {fileID: 6671842290765202390}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851509880
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,11 +665,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3787156947402957272, guid: ae7801818855a3d44837e5b4eb04078f,
-        type: 3}
-      propertyPath: laserTransform
-      value: 
-      objectReference: {fileID: 1811464733}
     - target: {fileID: 6671842289004167627, guid: ae7801818855a3d44837e5b4eb04078f,
         type: 3}
       propertyPath: m_RootOrder

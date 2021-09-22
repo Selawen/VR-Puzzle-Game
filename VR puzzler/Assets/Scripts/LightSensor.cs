@@ -23,11 +23,11 @@ public class LightSensor : Sensor, ISensor
         if (!activated && hit)
         {
             activated = true;
-            hit = false;
         } else if (activated && !hit)
         {
             activated = false;
         }
+        hit = false;
     }
 
 

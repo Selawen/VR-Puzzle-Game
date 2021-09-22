@@ -34,5 +34,22 @@ public class SingleMirror : Mirror, IMirror
         {
             StopBeamRender();
         }
+    }    
+    
+    /// <summary>
+    /// reflects lightbeam and sends out new ray with it
+    /// </summary>
+    /// <param name="source">the vector of the ray that hit the mirror</param>
+    /// <param name="hitPos">the point that the ray hit the mirror</param>
+    public new void Reflect(Vector3 source, Vector3 hitPos, LineRenderer lightBeam)
+    {
+        hitPoint = hitPos;
+        if (Vector3.Angle(source, mirrorTransform.forward) < 90)
+        {
+            base.Reflect(source, hitPos, lightBeam);
+        } else
+        {
+            StopBeamRender();
+        }
     }
 }
