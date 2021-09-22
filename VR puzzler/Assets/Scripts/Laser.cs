@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    //ToDo: line renderer loskoppelen
 
     [SerializeField] private Transform laserTransform;
     private Ray ray;
@@ -26,6 +25,7 @@ public class Laser : MonoBehaviour
     {
            //Gizmos.DrawLine(laserTransform.position, laserTransform.position+laserTransform.forward*3);
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -47,7 +47,7 @@ public class Laser : MonoBehaviour
                 rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(laserTransform.forward, rayHit.point, lineRenderer);
             } else if (rayHit.collider.tag == "Sensor")
             {
-                rayHit.collider.gameObject.GetComponent<ISensor>().Hit();
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lineRenderer.startColor);
             }
         }
     }

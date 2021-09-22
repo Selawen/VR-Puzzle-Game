@@ -7,4 +7,5 @@ public interface ISensor
     Color SensorColor();
     bool Activated();
     void Hit();
+    void Hit(Color lightColour);
 }
