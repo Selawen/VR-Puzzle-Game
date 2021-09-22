@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class ColouredLightSensor : Sensor, ISensor
+public class ColouredLightSensor : LightSensor, ISensor
 {
-    private bool hit = false;
     private Material mat;
 
-    public new void Hit()
-    {
-        hit = true;
-    }
-    
     public new void Hit(Color lightColour)
     {
         if (lightColour == sensorColor)
         {
-            hit = true;
+            base.Hit();
         }
     }
 
@@ -33,19 +27,5 @@ public class ColouredLightSensor : Sensor, ISensor
         mat = GetComponent<MeshRenderer>().material;
         mat.color = sensorColor;
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (!activated && hit)
-        {
-            activated = true;
-        } else if (activated && !hit)
-        {
-            activated = false;
-        }
-        hit = false;
-    }
-
 
 }

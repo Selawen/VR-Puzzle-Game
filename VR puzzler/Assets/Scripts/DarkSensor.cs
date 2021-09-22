@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSensor : Sensor, ISensor
+public class DarkSensor : Sensor, ISensor
 {
     protected bool hit = false;
 
@@ -25,15 +25,14 @@ public class LightSensor : Sensor, ISensor
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!activated && hit)
+        if (!activated && !hit)
         {
             activated = true;
-        } else if (activated && !hit)
+        }
+        else if (activated && hit)
         {
             activated = false;
         }
         hit = false;
     }
-
-
 }
