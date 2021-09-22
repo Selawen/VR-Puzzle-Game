@@ -108,5 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a404a4725024e4b9aa82ac5c136552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorColor: {r: 1, g: 0, b: 0, a: 0}
+  sensorColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  activationColor: {r: 1, g: 1, b: 1, a: 1}
   activated: 0

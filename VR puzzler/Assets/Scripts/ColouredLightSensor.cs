@@ -5,7 +5,6 @@ using UnityEngine;
 [ExecuteAlways]
 public class ColouredLightSensor : LightSensor, ISensor
 {
-    private Material mat;
 
     public new void Hit(Color lightColour)
     {

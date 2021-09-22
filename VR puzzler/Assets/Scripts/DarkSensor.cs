@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class DarkSensor : Sensor, ISensor
 {
     protected bool hit = false;
@@ -20,6 +21,13 @@ public class DarkSensor : Sensor, ISensor
     void Start()
     {
 
+    }
+
+    //update colour of material when changed in inspector
+    private void OnValidate()
+    {
+        mat = GetComponent<MeshRenderer>().material;
+        mat.color = sensorColor;
     }
 
     // Update is called once per frame

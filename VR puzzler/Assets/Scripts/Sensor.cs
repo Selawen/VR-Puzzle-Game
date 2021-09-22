@@ -5,7 +5,10 @@ using UnityEngine;
 public class Sensor : MonoBehaviour, ISensor
 {
     [SerializeField] protected Color sensorColor;
+    [SerializeField] protected Color activationColor;
     [SerializeField] protected bool activated = false;
+
+    protected Material mat;
 
     public bool Activated()
     {
@@ -29,12 +32,20 @@ public class Sensor : MonoBehaviour, ISensor
     // Start is called before the first frame update
     void Start()
     {
-        
+        mat = GetComponent<MeshRenderer>().material;
+        mat.color = sensorColor;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (activated)
+        {
+            mat.color = activationColor;  
+        }
+        else
+        {
+            mat.color = sensorColor;
+        }
     }
 }
