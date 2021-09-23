@@ -182,6 +182,7 @@ public class Mirror : MonoBehaviour, IMirror
     // Start is called before the first frame update
     void Start()
     {
+        mirrorTransform = gameObject.transform;
         ray = new Ray(mirrorTransform.position, mirrorTransform.forward);
         lineRenderer = gameObject.GetComponent<LineRenderer>();
     }

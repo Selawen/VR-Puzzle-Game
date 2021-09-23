@@ -29,10 +29,11 @@ public class Sensor : MonoBehaviour, ISensor
     {
         Debug.Log("I've been hit by:" + lightColour);
     }
+
     // Start is called before the first frame update
     void Start()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        mat = this.GetComponent<MeshRenderer>().material;
         mat.color = sensorColor;
     }
 
