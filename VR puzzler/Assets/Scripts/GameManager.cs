@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     void LevelCleared()
     {
         Debug.Log("Yay! cleared level!");
-        StartCoroutine("LoadNextLevel");
+        StartCoroutine(LoadNextLevel());
     }
 
     IEnumerator LoadNextLevel()

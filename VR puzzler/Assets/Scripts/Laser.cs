@@ -49,6 +49,10 @@ public class Laser : MonoBehaviour
             {
                 rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lineRenderer.startColor);
             }
+            else
+            {
+                RenderLightBeam();
+            }
         }
     }
 

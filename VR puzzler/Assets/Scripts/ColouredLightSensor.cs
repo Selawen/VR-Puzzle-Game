@@ -23,7 +23,7 @@ public class ColouredLightSensor : LightSensor, ISensor
     //update colour of material when changed in inspector
     private void OnValidate()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        mat = gameObject.GetComponent<MeshRenderer>().material;
         mat.color = sensorColor;
     }
 

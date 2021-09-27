@@ -43,7 +43,7 @@ public class Mirror : MonoBehaviour, IMirror
     {
         hitPoint = hitPos;
 
-        if (Vector3.SignedAngle(source, mirrorTransform.forward, mirrorTransform.forward) < 90)
+        if (Vector3.SignedAngle(source, mirrorTransform.forward, mirrorTransform.forward) <= 90)
         {
             reflectDirection = Vector3.Reflect(source, mirrorTransform.forward);
         } else
@@ -87,7 +87,9 @@ public class Mirror : MonoBehaviour, IMirror
         }
 
         //Debug.Log(reflectDirection);
+        StartCoroutine(CastRay(lightBeam));
 
+        /*
         ray = new Ray(hitPos, reflectDirection);
         int linePoints = lightBeam.positionCount;
 
@@ -112,11 +114,11 @@ public class Mirror : MonoBehaviour, IMirror
                     }
                 }
             }
-            if (rayHit.collider.tag == "Mirror")
+            if (rayHit.collider.CompareTag("Mirror"))
             {
                 rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point, lightBeam);
             }
-            else if (rayHit.collider.tag == "Sensor")
+            else if (rayHit.collider.CompareTag("Sensor"))
             {
                 rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lightBeam.startColor);
             }
@@ -136,7 +138,7 @@ public class Mirror : MonoBehaviour, IMirror
                     break;
                 }
             }
-        }
+        }*/
     }
 
 
@@ -177,8 +179,65 @@ public class Mirror : MonoBehaviour, IMirror
     {
         Vector3[] positions = { hitPoint, hitPoint };
         lineRenderer.SetPositions(positions);
-    }    
-    
+    }
+
+
+    protected IEnumerator CastRay(LineRenderer lightBeam)
+    {
+        yield return new WaitForFixedUpdate();
+
+        ray = new Ray(hitPoint, reflectDirection);
+        int linePoints = lightBeam.positionCount;
+
+        if (Physics.Raycast(ray, out rayHit))
+        {
+            if (rayHitPoint != rayHit.point)
+            {
+                rayHitPoint = rayHit.point;
+                //RenderLightBeam(hitPos, rayHitPoint);
+
+                for (int i = 0; i < linePoints; i++)
+                {
+                    if (hitPoint == lightBeam.GetPosition(i))
+                    {
+                        //Debug.Log(lineRenderer.positionCount);
+                        Vector3[] x = new Vector3[(i + 2)];
+                        lightBeam.positionCount = x.Length;
+                        lightBeam.GetPositions(x);
+                        x[x.Length - 1] = rayHitPoint;
+                        lightBeam.SetPositions(x);
+                        break;
+                    }
+                }
+            }
+
+            if (rayHit.collider.CompareTag("Mirror"))
+            {
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point, lightBeam);
+            }
+            else if (rayHit.collider.CompareTag("Sensor"))
+            {
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lightBeam.startColor);
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < linePoints; i++)
+            {
+                if (hitPoint == lightBeam.GetPosition(i))
+                {
+                    Vector3[] x = new Vector3[(i + 2)];
+                    lightBeam.positionCount = x.Length;
+                    lightBeam.GetPositions(x);
+                    x[x.Length - 1] = mirrorTransform.position + reflectDirection * 3;
+                    lightBeam.SetPositions(x);
+                    break;
+                }
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

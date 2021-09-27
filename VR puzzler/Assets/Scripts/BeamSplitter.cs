@@ -7,25 +7,34 @@ public class BeamSplitter : Mirror, IMirror
     Vector3 diagonal;
     Vector3 forward;
 
-
     public new void Reflect(Vector3 source, Vector3 hitPos, LineRenderer lightBeam)
     {
         hitPoint = hitPos;
-        Debug.DrawRay(mirrorTransform.position, diagonal, Color.yellow);
+        lineRenderer.colorGradient = lightBeam.colorGradient;
 
-        Debug.Log(Vector3.SignedAngle(source, forward, diagonal));
-        if (Vector3.SignedAngle(source, diagonal, diagonal) < 90)
+        //Debug.Log(Vector3.SignedAngle(source, diagonal, diagonal));
+        if (Vector3.SignedAngle(source, diagonal, diagonal) <= 90)
         {
-            reflectDirection = Vector3.Reflect(source, mirrorTransform.position + diagonal);
+            //Debug.Log(diagonal);
+            reflectDirection = Vector3.Reflect(source, diagonal);
+            //Debug.DrawRay(mirrorTransform.position, reflectDirection, Color.blue);
+            //reflectDirection = Vector3.Reflect(reflectDirection, mirrorTransform.forward);
+            //reflectDirection = Vector3.Reflect(source, diagonal*-1);
             //reflectDirection = Vector3.Lerp(source, diagonal, 1.5f);
         }
         else
         {
             reflectDirection = Vector3.Reflect(source, diagonal * -1);
         }
-        Debug.DrawRay(mirrorTransform.position, reflectDirection, Color.red);
+
+        //Debug.DrawRay(mirrorTransform.position, reflectDirection, Color.red);
 
         //Debug.Log(reflectDirection);
+
+        StartCoroutine(CastRay(lightBeam));
+        StartCoroutine(Passthrough(source));
+
+
         /*
         ray = new Ray(hitPos, reflectDirection);
         int linePoints = lightBeam.positionCount;
@@ -51,15 +60,16 @@ public class BeamSplitter : Mirror, IMirror
                     }
                 }
             }
-            if (rayHit.collider.tag == "Mirror")
+            
+            if (rayHit.collider.CompareTag("Mirror"))
             {
                 rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point, lightBeam);
             }
-            else if (rayHit.collider.tag == "Sensor")
+            else if (rayHit.collider.CompareTag("Sensor"))
             {
                 rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lightBeam.startColor);
             }
-
+            
         }
         else
         {
@@ -82,14 +92,47 @@ public class BeamSplitter : Mirror, IMirror
     void Awake()
     {
         forward = mirrorTransform.forward;
-        diagonal = Vector3.Lerp(mirrorTransform.forward, mirrorTransform.right, 0.5f);
+        diagonal = Vector3.Lerp(forward, mirrorTransform.right, 0.5f);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         forward = mirrorTransform.forward;
-        diagonal = Vector3.Lerp(mirrorTransform.forward, mirrorTransform.right, 0.5f);
-        StopBeamRender();
+        diagonal = Vector3.Slerp(forward, mirrorTransform.right, 0.5f);
+        //StopBeamRender();
     }
+
+    IEnumerator Passthrough(Vector3 source)
+    {
+        yield return new WaitForFixedUpdate();
+
+        //Debug.Log("passthrough");
+        ray = new Ray(hitPoint, source);
+
+        LayerMask mask = LayerMask.GetMask(new string[2] {"Ignore Raycast", "Ignore Beamsplitter" });
+        mask =~ mask;
+
+        if (Physics.Raycast(ray, out rayHit,10, mask))
+        {
+            Vector3[] positions = { hitPoint, rayHit.point };
+            lineRenderer.SetPositions(positions);
+
+            if (rayHit.collider.CompareTag("Mirror"))
+            {
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point, lineRenderer);
+            }
+            else if (rayHit.collider.CompareTag("Sensor"))
+            {
+                rayHit.collider.gameObject.GetComponent<ISensor>().Hit(lineRenderer.startColor);
+            }
+
+        }
+        else
+        {
+            Debug.Log("passthrough didn't hit");
+            StopBeamRender();
+        }
+    }
+
 }
