@@ -147,6 +147,10 @@ public class Mirror : MonoBehaviour, IMirror
     /// </summary>
     protected void RenderLightBeam()
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         Vector3[] positions = { hitPoint, mirrorTransform.position + reflectDirection * 3 };
         lineRenderer.SetPositions(positions);
     }
@@ -157,6 +161,10 @@ public class Mirror : MonoBehaviour, IMirror
     /// <param name="hitPos">the point on the mirror that was hit</param>
     protected void RenderLightBeam(Vector3 hitPos)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         Vector3[] positions = { hitPos, mirrorTransform.position + reflectDirection * 3 };
         lineRenderer.SetPositions(positions);
     }
@@ -168,6 +176,10 @@ public class Mirror : MonoBehaviour, IMirror
     /// <param name="rayHitPos">the point that the outgoing ray hit</param>
     protected void RenderLightBeam(Vector3 hitPos, Vector3 rayHitPos)
     {
+        if (lineRenderer == null)
+        {
+            return;
+        }
         Vector3[] positions = { hitPos, rayHitPos };
         lineRenderer.SetPositions(positions);
     }
@@ -243,7 +255,7 @@ public class Mirror : MonoBehaviour, IMirror
     {
         mirrorTransform = gameObject.transform;
         ray = new Ray(mirrorTransform.position, mirrorTransform.forward);
-        lineRenderer = gameObject.GetComponent<LineRenderer>();
+        gameObject.TryGetComponent(out lineRenderer);
     }
 
     // Update is called once per frame
