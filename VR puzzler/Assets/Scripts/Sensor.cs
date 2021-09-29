@@ -16,7 +16,11 @@ public class Sensor : MonoBehaviour, ISensor
     private void OnValidate()
     {
         mat = gameObject.GetComponent<MeshRenderer>().material;
-        mat.color = sensorColor;
+        try 
+        { 
+            mat.color = sensorColor; 
+        } 
+        catch(Exception) { }
     }
 
     public bool Activated()

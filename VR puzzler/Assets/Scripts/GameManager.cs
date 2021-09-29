@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sensors = GameObject.FindObjectsOfType<Sensor>();
+
+        Valve.VR.InteractionSystem.Player[] playerInstance = GameObject.FindObjectsOfType<Valve.VR.InteractionSystem.Player>();
+        if (playerInstance.Length > 1)
+        {
+            playerInstance[1].gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
