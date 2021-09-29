@@ -31,7 +31,7 @@ public class BeamSplitter : Mirror, IMirror
 
         //Debug.Log(reflectDirection);
 
-        StartCoroutine(CastRay(lightBeam));
+        StartCoroutine(CastRay(lightBeam, reflectDirection, hitPos, rayHitPoint));
         StartCoroutine(Passthrough(source));
 
 
@@ -113,14 +113,15 @@ public class BeamSplitter : Mirror, IMirror
         LayerMask mask = LayerMask.GetMask(new string[2] {"Ignore Raycast", "Ignore Beamsplitter" });
         mask =~ mask;
 
-        if (Physics.Raycast(ray, out rayHit,10, mask))
+        if (Physics.Raycast(ray, out rayHit,100, mask))
         {
+            Debug.Log("Passthrough hit: " + rayHit.collider.gameObject.name);
             Vector3[] positions = { hitPoint, rayHit.point };
             lineRenderer.SetPositions(positions);
 
             if (rayHit.collider.CompareTag("Mirror"))
             {
-                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(reflectDirection, rayHit.point, lineRenderer);
+                rayHit.collider.gameObject.GetComponent<IMirror>().Reflect(source, rayHit.point, lineRenderer);
             }
             else if (rayHit.collider.CompareTag("Sensor"))
             {

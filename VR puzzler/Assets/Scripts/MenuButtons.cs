@@ -7,7 +7,7 @@ namespace Valve.VR.InteractionSystem.Sample
 {
     public class MenuButtons : MonoBehaviour
     {
-        public void LoadLevels(Hand hand)
+        public void LoadLevels()
         {
             SceneManager.LoadScene(1);
         }

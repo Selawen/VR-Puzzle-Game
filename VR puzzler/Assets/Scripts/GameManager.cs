@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] ISensor[] sensors;
+    public List<Vector3> reflectionPoints;
 
     [SerializeField] int nextSceneIndex;
 
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sensors = GameObject.FindObjectsOfType<Sensor>();
+        reflectionPoints = new List<Vector3>();
 
         Valve.VR.InteractionSystem.Player[] playerInstance = GameObject.FindObjectsOfType<Valve.VR.InteractionSystem.Player>();
         if (playerInstance.Length > 1)

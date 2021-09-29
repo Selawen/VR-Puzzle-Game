@@ -83,11 +83,11 @@ public class Mirror : MonoBehaviour, IMirror
             reflectDirection = Vector3.Reflect(source, mirrorTransform.forward);
         } else
         {
-            reflectDirection = Vector3.Reflect(source, mirrorTransform.forward*-1);
+            reflectDirection = Vector3.Reflect(source, mirrorTransform.forward);
         }
 
         //Debug.Log(reflectDirection);
-        StartCoroutine(CastRay(lightBeam));
+        StartCoroutine(CastRay(lightBeam, reflectDirection, hitPos, rayHitPoint));
 
         /*
         ray = new Ray(hitPos, reflectDirection);
@@ -194,17 +194,18 @@ public class Mirror : MonoBehaviour, IMirror
     }
 
 
-    protected IEnumerator CastRay(LineRenderer lightBeam)
+    protected IEnumerator CastRay(LineRenderer lightBeam, Vector3 rayDirection, Vector3 rayOrigin, Vector3 currentHitPos)
     {
         yield return new WaitForFixedUpdate();
 
-        ray = new Ray(hitPoint, reflectDirection);
+        ray = new Ray(rayOrigin, rayDirection);
         int linePoints = lightBeam.positionCount;
 
         if (Physics.Raycast(ray, out rayHit))
         {
-            if (rayHitPoint != rayHit.point)
+            if (currentHitPos != rayHit.point)
             {
+                currentHitPos = rayHit.point;
                 rayHitPoint = rayHit.point;
                 //RenderLightBeam(hitPos, rayHitPoint);
 

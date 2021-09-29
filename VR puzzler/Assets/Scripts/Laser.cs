@@ -59,6 +59,7 @@ public class Laser : MonoBehaviour
     void RenderLightBeam()
     {
         Vector3[] positions = { laserTransform.position, hitPoint };
+        lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, laserTransform.position);
         lineRenderer.SetPosition(1, hitPoint);
     }

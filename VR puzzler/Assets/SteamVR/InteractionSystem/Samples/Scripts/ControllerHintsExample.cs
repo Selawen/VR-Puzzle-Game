@@ -7,6 +7,7 @@
 using UnityEngine;
 using System.Collections;
 using Valve.VR;
+using UnityEngine.SceneManagement;
 
 namespace Valve.VR.InteractionSystem.Sample
 {
@@ -15,6 +16,11 @@ namespace Valve.VR.InteractionSystem.Sample
 	{
 		private Coroutine buttonHintCoroutine;
 		private Coroutine textHintCoroutine;
+
+		public void LoadLevels()
+		{
+			SceneManager.LoadScene(1);
+		}
 
 		//-------------------------------------------------
 		public void ShowButtonHints( Hand hand )
