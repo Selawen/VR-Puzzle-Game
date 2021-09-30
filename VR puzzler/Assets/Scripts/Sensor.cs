@@ -62,7 +62,7 @@ public class Sensor : MonoBehaviour, ISensor
             }
             catch (NullReferenceException ex)
             {
-                Debug.Log("mat was not set");
+                Debug.Log(ex);
             }
             //mat.color = activationColor;  
         }
@@ -74,7 +74,7 @@ public class Sensor : MonoBehaviour, ISensor
             }
             catch (NullReferenceException ex)
             {
-                Debug.Log("mat was not set");
+                Debug.Log(ex);
             }
             //mat.color = sensorColor;
         }

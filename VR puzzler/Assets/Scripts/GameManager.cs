@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] ISensor[] sensors;
-    public List<Vector3> reflectionPoints;
+    [SerializeField] GameObject clearedScreen;
 
     [SerializeField] int nextSceneIndex;
 
@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sensors = GameObject.FindObjectsOfType<Sensor>();
-        reflectionPoints = new List<Vector3>();
+        clearedScreen.SetActive(false);
 
         Valve.VR.InteractionSystem.Player[] playerInstance = GameObject.FindObjectsOfType<Valve.VR.InteractionSystem.Player>();
         if (playerInstance.Length > 1)
@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     void LevelCleared()
     {
         Debug.Log("Yay! cleared level!");
+        clearedScreen.SetActive(true);
+        gameObject.GetComponent<AudioSource>().Play();
         StartCoroutine(LoadNextLevel());
     }
 
